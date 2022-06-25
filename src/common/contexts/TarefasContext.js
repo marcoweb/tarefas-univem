@@ -25,11 +25,22 @@ const useTarefasContext = () => {
         if(tarefaEmEdicao.id === 0) {
             tarefaEmEdicao.id = (tarefas.length === 0) ? 1 : tarefas[tarefas.length - 1].id + 1
             setTarefas(prevTarefas => [...prevTarefas, tarefaEmEdicao])
+        } else {
+            setTarefas(tarefas.map(item => {
+                if(item.id === tarefaEmEdicao.id) {
+                    item.rotulo = tarefaEmEdicao.rotulo
+                }
+                return item
+            }))
         }
         limparTarefaEmEdicao()
     }
 
-    return {tarefas, tarefaEmEdicao, setTarefas, setTarefaEmEdicao, limparTarefaEmEdicao, salvarTarefa}
+    function removerTarefa(id) {
+        setTarefas(tarefas.filter(item => item.id !== id))
+    }
+
+    return {tarefas, tarefaEmEdicao, setTarefas, setTarefaEmEdicao, limparTarefaEmEdicao, salvarTarefa, removerTarefa}
 }
 
 export { TarefasContext, TarefasContextProvider, useTarefasContext }
